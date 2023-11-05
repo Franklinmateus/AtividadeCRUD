@@ -1,7 +1,10 @@
 package com.example.myapplication;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -36,11 +39,10 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             nomeTextView.setText("Nome: " + usuarioLogado.getNome());
             emailTextView.setText("Email: " + usuarioLogado.getEmail());
         } else {
-            // Lidar com o caso em que o usuário não está logado
-            // Por exemplo, redirecionar para a tela de login
+
         }
 
-        botaoEditarPerfil.setOnClickListener(new View.OnClickListener() {
+        /*botaoEditarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PerfilUsuarioActivity.this, EditarPerfilActivity.class);
@@ -48,6 +50,26 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                 intent.putExtra("email", usuarioLogado.getEmail());
                 startActivity(intent);
             }
+        });*/
+
+        ActivityResultLauncher<Intent> abreActivity = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            String novoNome = data.getStringExtra("nome");
+                            String novoEmail = data.getStringExtra("email");
+
+                            nomeTextView.setText(novoNome);
+                            emailTextView.setText(novoEmail);
+                        }
+                    }
+                });
+
+        botaoEditarPerfil.setOnClickListener(view -> {
+            Intent intent = new Intent(PerfilUsuarioActivity.this, EditarPerfilActivity.class);
+            abreActivity.launch(intent);
         });
 
         Button botaoExcluir = findViewById(R.id.botaoExcluir);

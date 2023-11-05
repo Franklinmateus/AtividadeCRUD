@@ -103,7 +103,7 @@ public class DHelper extends SQLiteOpenHelper {
                     return usuario;
                 }
             }
-            return null; // Se o usuário não estiver logado ou não encontrado
+            return null;
         }
 
 
@@ -125,7 +125,7 @@ public class DHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         int linhasAfetadas = db.delete(TABLE_USUARIOS, KEY_ID + "=?", new String[]{String.valueOf(usuario.getId())});
         db.close();
-        return linhasAfetadas > 0; // Retorna true se linhas foram afetadas (usuário excluído)
+        return linhasAfetadas > 0;
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -59,7 +60,8 @@ public class EditarPerfilActivity extends AppCompatActivity {
                     Intent resultadoIntent = new Intent();
                     resultadoIntent.putExtra("nome", novoNome);
                     resultadoIntent.putExtra("email", novoEmail);
-                    startActivity(resultadoIntent);
+                    setResult(Activity.RESULT_OK, resultadoIntent);
+                    finish();
                 } else {
                     Toast.makeText(EditarPerfilActivity.this, "Falha ao atualizar o perfil", Toast.LENGTH_SHORT).show();
                 }
